@@ -1,8 +1,8 @@
 package secao16TratamentoErros;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.Scanner;
 
+import secao09OrientacaoObjetos.AccountException;
 import secao09OrientacaoObjetos.Conta;
 import secao12HerancaPolimorfismo.Pessoa;
 
@@ -50,10 +50,7 @@ public class Principal {
 				default:
 				}
 			}
-			catch (InvalidParameterException e) {
-				System.out.println(e.getMessage());
-			}
-			catch (IllegalStateException e) {
+			catch (AccountException e) {
 				System.out.println(e.getMessage());
 			}
 			catch (Exception e) {

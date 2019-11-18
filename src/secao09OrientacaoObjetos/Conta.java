@@ -1,6 +1,4 @@
 package secao09OrientacaoObjetos;
-import java.security.InvalidParameterException;
-
 import secao12HerancaPolimorfismo.Pessoa;
 
 public class Conta {
@@ -20,7 +18,7 @@ public class Conta {
 	public Conta(double saldo, double limite, Pessoa cliente) {
 		
 		if (saldo < 0 || limite < 0) {
-			throw new InvalidParameterException("Parâmetros incorretos.");
+			throw new AccountException("Parâmetros incorretos.");
 		}
 		
 		this.numero = contador++;
@@ -34,11 +32,11 @@ public class Conta {
 	public void sacar(double valor) {
 		
 		if (valor <= 0) {
-			throw new InvalidParameterException("Não é possível sacar um valor negativo.");
+			throw new AccountException("Não é possível sacar um valor negativo.");
 		}
 		
 		if ( saldo + limite < valor ) {
-			throw new IllegalStateException("Saldo insuficiente.");
+			throw new AccountException("Saldo insuficiente.");
 		}
 		
 		saldo -= valor;
@@ -49,7 +47,7 @@ public class Conta {
 	public void depositar (double valor) {
 		
 		if (valor < 0 ) {
-			throw new InvalidParameterException("Não é possível depositar um valor negativo.");
+			throw new AccountException("Não é possível depositar um valor negativo.");
 		}
 		
 		saldo += valor;
@@ -64,7 +62,7 @@ public class Conta {
 	public void setLmite(double limite) {
 		
 		if ( limite < 0) {
-			throw new InvalidParameterException("O limite não pode ser negativo.");
+			throw new AccountException("O limite não pode ser negativo.");
 		}
 		
 		this.limite = limite;
@@ -73,7 +71,7 @@ public class Conta {
 	public static void setContador(int numero) {
 		
 		if (numero < 0) {
-			throw new InvalidParameterException("O contatodor não pode ser negativo.");
+			throw new AccountException("O contatodor não pode ser negativo.");
 		}
 		
 		Conta.contador = numero;

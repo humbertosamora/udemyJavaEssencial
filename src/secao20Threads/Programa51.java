@@ -1,4 +1,5 @@
 package secao20Threads;
+import secao09OrientacaoObjetos.AccountException;
 import secao09OrientacaoObjetos.Conta;
 import secao12HerancaPolimorfismo.Pessoa;
 
@@ -14,7 +15,7 @@ import secao12HerancaPolimorfismo.Pessoa;
 
 public class Programa51 {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) {
 		
 		// Instancia uma conta sem saldo e sem limite
 		Conta c = new Conta(0,0, new Pessoa("Atleticano Triste"));
@@ -25,21 +26,39 @@ public class Programa51 {
 			// Usar synchronized no modificador da função não resolveria porque o recurso compartilhado está em outro objeto.
 			// Synchronized no modificador da função iria sincronizar os atributos internos do objeto Runnable.
 			public void run() {
-				// Foi usado synchronized porque deseja modificar o objeto "c"
+				// Foi usado synchronized(c) porque deseja modificar o objeto "c"
 				synchronized (c) {
-					while ( true ) {
+					
+					while (true) {
+						
 						try {
-							c.wait();
 							c.sacar(1000);
-							break;
-						} catch (Exception e) {
+							System.out.println("Saque realizado.");
+							break;	// Finaliza o while se conseguir sacar.
+						}
+						catch (AccountException e) {
+							// Exceção gerada pela classe Conta devido ao saldo insuficiente.
+							// Continua a execução até haver saldo para saque.
 							System.out.println(e.getMessage());
-							System.out.println("Thread 1 aguardando...");
+							
+							try {
+								c.wait();
+							}
+							catch (InterruptedException e1) {
+								// Exceção associada ao método wait(). Finaliza a thread caso ocorra.
+								System.out.println(e1.getMessage());
+								break;
+							}
+						}
+						catch (Exception e) {
+							// Outras exceções. Finaliza a thread caso ocorra.
+							System.out.println(e.getMessage());
+							break;
 						}
 					}
-					System.out.println("Saque realizado.");
 				}
-			}});
+			}
+		});
 		
 		// Inicia uma thread para depositar 100
 		Thread t2 = new Thread ( new Runnable() {
