@@ -55,18 +55,18 @@ public class Programa76 {
 		System.out.println("As pessoas que nasceram até 1980 possuem um saldo total de R$ " + soma);
 		System.out.println("");
 		
-		// Uso de stream para imprimir o nome do cliente e o nº da conta, caso seu saldo seja maior ou igual 1000
-		System.out.println("[Carteira de clientes com saldo entre 300 e 750]");
+		// Uso de stream para imprimir o nome do cliente e o nº da conta, caso seu saldo esteja entre 300 e 1000
+		System.out.println("[Carteira de clientes com saldo entre 300 e 1000]");
 		carteira.stream()
 				.filter(c -> c.getSaldo() >= 300 && c.getSaldo() <= 1000)
 				.forEach(c -> System.out.println(c.getCliente().getNome() + " R$ " + c.getSaldo()));
 		System.out.println("");
 		
-		// Usa parallelStream para filtar as contas com saldo maior ou igual a 1000
+		// Usa parallelStream para imprimir a carteria de clientes com saldo inferior a 1000
 		List<Conta> carteira_customizada =	carteira.parallelStream()
-				.filter(c -> c.getSaldo() >=300  && c.getSaldo() >= 1000)
+				.filter(c -> c.getSaldo() < 1000)
 				.collect(Collectors.toList());
-		System.out.println("[Carteira de clientes com saldo igual ou maior a 1000]");
+		System.out.println("[Carteira de clientes com saldo inferior a 1000]");
 		System.out.println(carteira_customizada);
 		System.out.println("");
 		
@@ -80,7 +80,7 @@ public class Programa76 {
 		
 		// Seleciona as contas de pessoas que nasceram após 2000 e monta um mapa para exibição do nome e saldo
 		Map<Integer, String> carateira_jovens = carteira.stream()
-									.filter(c-> c.getCliente().getNascimento().getYear() >= 2000)
+									.filter(c-> c.getCliente().getNascimento().getYear() > 2000)
 									.collect(Collectors.toMap(c-> c.getNumero(), c -> c.getCliente().getNome() + "R$ " + c.getSaldo()));
 		System.out.println("[Carteir de clientes que nasceram a partir do ano 2000]");
 		System.out.println(carateira_jovens.values());
